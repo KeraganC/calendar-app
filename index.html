@@ -1,107 +1,91 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2487.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8">
+  <title>Public Calendar App</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #filter-container { margin-bottom: 20px; }
+    select { padding: 6px; width: 200px; height: 100px; }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Public Calendar App&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: Arial, sans-serif; padding: 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>#filter-container { margin-bottom: 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>select { padding: 6px; width: 200px; height: 100px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h2&gt;Event Calendar&lt;/h2&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="filter-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;label for="categoryFilter"&gt;Filter by Category:&lt;/label&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;select id="categoryFilter" multiple&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="Yoga"&gt;Yoga&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="Workshop"&gt;Workshop&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="Beginner"&gt;Beginner&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="Webinar"&gt;Webinar&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/select&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="calendar"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://apis.google.com/js/api.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const calendarId = "e1ca9c45363767d2fd0d586ac7f586617b5699acb6fefdf827003fef0faf0602@group.calendar.google.com";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const apiKey = "AIzaSyCNgCX-JYI5IYvwaH_BwU5btC77ZiVe74M";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function parseCategories(description = "") {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const match = description.match(/Category:\s*(.+)/i);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return match ? match[1].split(',').map(c =&gt; c.trim()) : ["Uncategorized"];</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function initCalendar(events) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const calendarEl = document.getElementById('calendar');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const calendar = new FullCalendar.Calendar(calendarEl, {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>initialView: 'dayGridMonth',</p>
-<p class="p1"><span class="Apple-converted-space">        </span>headerToolbar: {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>left: 'prev,next today',</p>
-<p class="p1"><span class="Apple-converted-space">          </span>center: 'title',</p>
-<p class="p1"><span class="Apple-converted-space">          </span>right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'</p>
-<p class="p1"><span class="Apple-converted-space">        </span>},</p>
-<p class="p1"><span class="Apple-converted-space">        </span>events: events,</p>
-<p class="p1"><span class="Apple-converted-space">        </span>eventClick: function(info) {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>alert(info.event.title + "\n\n" + info.event.extendedProps.description);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">      </span>calendar.render();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("categoryFilter").addEventListener("change", function() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const selected = Array.from(this.selectedOptions).map(opt =&gt; opt.value);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>calendar.getEvents().forEach(event =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>const match = event.extendedProps.categories.some(cat =&gt; selected.includes(cat)) || selected.length === 0;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>event.setProp("display", match ? "auto" : "none");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function loadEvents() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gapi.client.init({ apiKey: apiKey }).then(() =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return gapi.client.calendar.events.list({</p>
-<p class="p1"><span class="Apple-converted-space">          </span>calendarId: calendarId,</p>
-<p class="p1"><span class="Apple-converted-space">          </span>timeMin: new Date().toISOString(),</p>
-<p class="p1"><span class="Apple-converted-space">          </span>showDeleted: false,</p>
-<p class="p1"><span class="Apple-converted-space">          </span>singleEvents: true,</p>
-<p class="p1"><span class="Apple-converted-space">          </span>orderBy: 'startTime'</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}).then(response =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const events = response.result.items.map(event =&gt; ({</p>
-<p class="p1"><span class="Apple-converted-space">          </span>title: event.summary,</p>
-<p class="p1"><span class="Apple-converted-space">          </span>start: event.start.dateTime || event.start.date,</p>
-<p class="p1"><span class="Apple-converted-space">          </span>end: event.end.dateTime || event.end.date,</p>
-<p class="p1"><span class="Apple-converted-space">          </span>extendedProps: {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>description: event.description || "",</p>
-<p class="p1"><span class="Apple-converted-space">            </span>location: event.location || "",</p>
-<p class="p1"><span class="Apple-converted-space">            </span>categories: parseCategories(event.description || "")</p>
-<p class="p1"><span class="Apple-converted-space">          </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>initCalendar(events);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>gapi.load("client", loadEvents);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <h2>Event Calendar</h2>
+
+  <div id="filter-container">
+    <label for="categoryFilter">Filter by Category:</label><br>
+    <select id="categoryFilter" multiple>
+      <option value="Yoga">Yoga</option>
+      <option value="Workshop">Workshop</option>
+      <option value="Beginner">Beginner</option>
+      <option value="Webinar">Webinar</option>
+    </select>
+  </div>
+
+  <div id="calendar"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    const calendarId = "e1ca9c45363767d2fd0d586ac7f586617b5699acb6fefdf827003fef0faf0602@group.calendar.google.com";
+    const apiKey = "AIzaSyCNgCX-JYI5IYvwaH_BwU5btC77ZiVe74M";
+
+    function parseCategories(description = "") {
+      const match = description.match(/Category:\s*(.+)/i);
+      return match ? match[1].split(',').map(c => c.trim()) : ["Uncategorized"];
+    }
+
+    function initCalendar(events) {
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        },
+        events: events,
+        eventClick: function(info) {
+          alert(info.event.title + "\n\n" + info.event.extendedProps.description);
+        }
+      });
+      calendar.render();
+
+      document.getElementById("categoryFilter").addEventListener("change", function() {
+        const selected = Array.from(this.selectedOptions).map(opt => opt.value);
+        calendar.getEvents().forEach(event => {
+          const match = event.extendedProps.categories.some(cat => selected.includes(cat)) || selected.length === 0;
+          event.setProp("display", match ? "auto" : "none");
+        });
+      });
+    }
+
+    function loadEvents() {
+      gapi.client.init({ apiKey: apiKey }).then(() => {
+        return gapi.client.calendar.events.list({
+          calendarId: calendarId,
+          timeMin: new Date().toISOString(),
+          showDeleted: false,
+          singleEvents: true,
+          orderBy: 'startTime'
+        });
+      }).then(response => {
+        const events = response.result.items.map(event => ({
+          title: event.summary,
+          start: event.start.dateTime || event.start.date,
+          end: event.end.dateTime || event.end.date,
+          extendedProps: {
+            description: event.description || "",
+            location: event.location || "",
+            categories: parseCategories(event.description || "")
+          }
+        }));
+        initCalendar(events);
+      });
+    }
+
+    gapi.load("client", loadEvents);
+  </script>
 </body>
 </html>
